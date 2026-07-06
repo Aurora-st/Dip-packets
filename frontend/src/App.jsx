@@ -262,7 +262,7 @@ function App() {
           </div>
           <div>
             <h1 style={{ margin: 0, fontSize: "1.5rem", fontWeight: 700, background: "linear-gradient(to right, #ffffff, #94a3b8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Antigravity DPI
+              DPI Packet Sentinel
             </h1>
             <p style={{ margin: 0, fontSize: "0.75rem", color: "#64748b" }}>
               Deep Packet Inspection Engine & Real-Time Monitor

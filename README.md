@@ -1,4 +1,4 @@
-# 🛡️ Antigravity DPI — Deep Packet Inspection & Monitor Dashboard
+# 🛡️ DPI Packet Sentinel — Deep Packet Inspection & Monitor Dashboard
 
 A premium, full-stack Deep Packet Inspection (DPI) engine and real-time visualization dashboard. It sniffs network traffic locally (using Scapy or a high-performance mock packet generator) and streams live telemetry to a cloud dashboard.
 
