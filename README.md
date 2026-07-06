@@ -1,139 +1,118 @@
-# DPI Engine Dashboard (Python + Node + React)
+# 🛡️ Antigravity DPI — Deep Packet Inspection & Monitor Dashboard
 
-A small demo project that simulates a DPI (Deep Packet Inspection) engine, exports real-time stats to disk, and exposes them via a Node/Express API to a React dashboard.
+A premium, full-stack Deep Packet Inspection (DPI) engine and real-time visualization dashboard. It sniffs network traffic locally (using Scapy or a high-performance mock packet generator) and streams live telemetry to a cloud dashboard.
 
-## Repository layout
+### 🌐 Live Deployments
+* **Frontend UI (Netlify)**: [https://dpi-packet.netlify.app](https://dpi-packet.netlify.app)
+* **Backend API (Render)**: [https://dpi-backend-vmaf.onrender.com](https://dpi-backend-vmaf.onrender.com)
 
-- `engine/` — Python DPI engine (packet tracking + stats/rules files)
-  - `dpi_engine.py` — main engine
-  - `rules.json` — block lists (IP/domain/app)
-  - `stats.json` — continuously updated stats for the UI
-- `backend/` — Node/Express API
-  - `server.js` — REST endpoints for `stats.json` and `rules.json`
-- `frontend/` — React (Vite) dashboard
-  - `src/` — UI components
-  - visualizes stats and lets you update blocking rules
+---
 
-## Prerequisites
+## 🚀 Key Features
 
-- **Python** 3.x
-- **Node.js** 18+ (recommended)
-- **npm**
-- For live packet capture with `scapy`: network privileges (admin/root) and a working Scapy install.
+* **🤖 Animated Robot Mascot (V10)**:
+  * Embedded high-definition robot video mascot that automatically plays/moves while active data is being pulled, and pauses gracefully at rest.
+  * Runs at a constant, smooth `1.0x` playback rate to prevent buffering or frame lag.
+* **〰️ Single Wavy Neon Connector**:
+  * A mathematically precise, CSS-animated cyan neon wavy line that oscillates smoothly inside the gap between the mascot card and stats cards.
+  * Completely responsive: automatically hides on screens below `900px` to maintain a clean layout.
+* **💚 Live Network Health Badge**:
+  * Calculates the blocked packet ratio: `Health = blocked_packets / total_packets`.
+  * Displays color-coded network threat statuses: `HEALTHY` (green), `SUSPICIOUS` (yellow), or `CRITICAL THREAT` (red).
+* **⚠️ Adjustable Safety Threshold Banner**:
+  * Real-time range slider to adjust safety alert thresholds (from `50` to `2500` blocked packets).
+  * Exceeding the threshold instantly triggers a shaking, neon-red threat warning banner at the top of the screen.
+* **📊 CSV Data Log Exporter**:
+  * One-click download button to export the entire recent traffic log (IPs, Ports, classification, byte sizes, and block statuses) as a timestamped `.csv` file.
+* **🔄 End-to-End Cloud Synchronization**:
+  * The local Python engine pushes stats to the Render cloud backend, and pulls block rules down to apply packet blocks instantly at the network card level.
 
-## How it works
+---
 
-1. The **Python engine** tracks flows and applies the current rules from `engine/rules.json`.
-2. Every ~1s, it writes aggregated results to `engine/stats.json`.
-3. The **Node backend** serves:
-   - `GET /api/stats` → reads `engine/stats.json`
-   - `GET /api/rules` → reads `engine/rules.json`
-   - `POST /api/rules` → updates `engine/rules.json`
-4. The **React frontend** polls the API and renders charts/tables.
+## 📁 Repository Layout
 
-## Running the project
-
-### 1) Start the backend API
-
-```bash
-cd backend
-npm install
-npm start
+```
+D:\dpi-engine\
+├── engine\
+│   ├── dpi_engine.py      # Python DPI engine (sniffs card / decodes TLS SNI / blocks flows)
+│   ├── rules.json         # Local rules list (IPs, Domains, and Apps to block)
+│   └── stats.json         # Real-time aggregated stats exported locally
+├── backend\
+│   ├── server.js          # Node.js Express server (stores in-memory stats & manages rules)
+│   └── package.json       # Backend dependencies (cors, express)
+└── frontend\
+    ├── src\
+    │   ├── App.jsx        # Premium dashboard with charts, table, and rules configuration
+    │   ├── RobotMascot.jsx# HD Video Mascot Controller
+    │   └── index.css      # Custom neon styling, glassmorphism card templates, and animations
+    └── package.json       # React dependencies (vite, recharts, framer-motion, lucide-react)
 ```
 
-- Runs on: `http://localhost:5000`
+---
 
-### 2) Start the Python DPI engine
+## 🛠️ How to Run the Project (Operational Guide)
 
-From repository root:
+You can run the project in **Cloud Mode** (recommended for production) or **Local Mode** (for offline development).
 
-```bash
-cd engine
-```
+### 1️⃣ Cloud Mode (Render + Netlify + Local Sniffer) — *Recommended*
+Use this mode to run the live production website. Since the frontend (Netlify) and backend (Render) are hosted in the cloud, you **only** need to run the Python sniffer locally on your computer to push data up.
 
-#### Mock mode (recommended for quick testing)
+1. Open a **PowerShell terminal** in VS Code.
+2. Bind the backend environment variable to the Render URL and run the Python engine:
+   ```powershell
+   $env:DPI_BACKEND_URL="https://dpi-backend-vmaf.onrender.com"
+   python D:\dpi-engine\engine\dpi_engine.py --step 8 --mock
+   ```
+   *(To capture real physical network traffic instead of simulated mock data, run VS Code as Administrator and remove the `--mock` flag).*
+3. Open the live dashboard in your browser: [https://dpi-packet.netlify.app](https://dpi-packet.netlify.app)
+4. Update rules on the site, and watch the local sniffer apply blocks instantly!
 
-```bash
-python dpi_engine.py --mock --step 8
-```
+---
 
-This runs the end-to-end engine indefinitely using the built-in mock packet generator.
+### 2️⃣ Local Mode (All components running offline on your computer)
+Use this mode for offline testing and local code development.
 
-#### Step-by-step testing
+* **Terminal 1: Python DPI Engine**:
+  ```powershell
+  python D:\dpi-engine\engine\dpi_engine.py --step 8 --mock
+  ```
+* **Terminal 2: Node.js Express API**:
+  ```powershell
+  cd backend
+  npm install
+  npm start
+  ```
+  Runs on: `http://localhost:5000`
+* **Terminal 3: React Vite Client**:
+  ```powershell
+  cd frontend
+  npm install
+  npm run dev
+  ```
+  Runs on: `http://localhost:5173`
 
-You can run individual stages using `--step` (1..8). Example:
+---
 
-```bash
-python dpi_engine.py --mock --step 7
-```
+## ⚡ API Specifications
 
-#### Live capture mode
+### 1. Stats Endpoint
+* **GET `/api/stats`**: Serves the cached or disk stats.json payload.
+* **POST `/api/stats`**: Pushes stats from the local engine to the backend cache.
 
-```bash
-python dpi_engine.py --step 8
-```
-
-> Note: live sniffing requires Scapy and sufficient permissions.
-
-### 3) Start the frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Then open the URL printed by Vite (typically `http://localhost:5173`).
-
-## Rules API
-
-The backend reads/writes `engine/rules.json`.
-
-### Get current rules
-
-```bash
-curl http://localhost:5000/api/rules
-```
-
-### Add or delete a rule
-
-`POST /api/rules` with JSON body:
-
-```json
-{
-  "action": "add" ,
-  "type": "ip|domain|app",
-  "value": "8.8.8.8"
-}
-```
-
-To delete:
-
-```json
-{
-  "action": "delete",
-  "type": "domain",
-  "value": "youtube.com"
-}
-```
-
-## Files used by the engine
-
-- `engine/rules.json`
-  - `blocked_ips`: list of strings
-  - `blocked_domains`: list of strings
-  - `blocked_apps`: list of strings
-
-- `engine/stats.json`
-  - updated continuously with counters, top apps, and recent flows
-
-## Notes / limitations
-
-- Domain matching is done as substring checks on extracted SNI.
-- App classification is heuristic-based on SNI and ports.
-- Live packet capture may fail without the right environment/privileges; mock mode is provided for testing.
-
-## License
-
-Add your license information here.
-
+### 2. Rules Endpoint
+* **GET `/api/rules`**: Returns current IP, domain, and application block lists.
+* **POST `/api/rules`**: Adds or deletes rule configurations.
+  ```json
+  // Body to ADD a rule:
+  {
+    "action": "add",
+    "type": "ip | domain | app",
+    "value": "facebook.com"
+  }
+  // Body to DELETE a rule:
+  {
+    "action": "delete",
+    "type": "domain",
+    "value": "facebook.com"
+  }
+  ```
