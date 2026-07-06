@@ -109,14 +109,15 @@ function App() {
   const fetchData = async () => {
     const startTime = Date.now();
     setMascotState("loading");
+    console.log("Fetching from:", API_BASE);
     try {
       const statsRes = await fetch(`${API_BASE}/stats`);
-      if (!statsRes.ok) throw new Error("Backend server error");
+      if (!statsRes.ok) throw new Error(`Stats endpoint failed with status ${statsRes.status}`);
       const statsData = await statsRes.json();
       setStats(statsData);
 
       const rulesRes = await fetch(`${API_BASE}/rules`);
-      if (!rulesRes.ok) throw new Error("Backend server error");
+      if (!rulesRes.ok) throw new Error(`Rules endpoint failed with status ${rulesRes.status}`);
       const rulesData = await rulesRes.json();
       setRules(rulesData);
 
@@ -135,8 +136,8 @@ function App() {
       }, loadingDelay);
       
     } catch (err) {
-      console.error("[!] Fetch error:", err);
-      setError("Backend server disconnected. Ensure Express is running on port 5000.");
+      console.error("API Error:", err);
+      setError(`Backend server disconnected. Fetch failed from ${API_BASE}`);
       setMascotState("idle");
     } finally {
       setLoading(false);

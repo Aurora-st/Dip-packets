@@ -4,6 +4,8 @@ import os
 import json
 import argparse
 import threading
+import urllib.request
+import urllib.error
 from scapy.all import IP, TCP, UDP, Ether
 
 # Define simulated server IPs for mock data
@@ -402,8 +404,41 @@ def stats_exporter_thread():
         }
         
         write_stats_file(stats_payload)
-        # We print logs to console to show live operations
-        print(f"[STATS] Total Packets: {total_pkts} (+{pkts_sec}/s) | Blocked: {total_blkd} (+{blkd_sec}/s) | Flows: {len(active_flows)}")
+        print(f"[STATS] Writing to stats.json: {json.dumps(stats_payload)}")
+
+        # Synchronize with backend API (local or remote)
+        backend_url = os.environ.get("DPI_BACKEND_URL") or os.environ.get("VITE_BACKEND_URL") or "http://localhost:5000"
+        
+        # 1. Push stats to backend
+        try:
+            stats_json_data = json.dumps(stats_payload).encode('utf-8')
+            req = urllib.request.Request(
+                f"{backend_url.rstrip('/')}/api/stats",
+                data=stats_json_data,
+                headers={'Content-Type': 'application/json'},
+                method='POST'
+            )
+            with urllib.request.urlopen(req, timeout=1.0) as response:
+                pass
+        except Exception:
+            pass
+
+        # 2. Pull rules from backend dynamically
+        try:
+            req = urllib.request.Request(
+                f"{backend_url.rstrip('/')}/api/rules",
+                method='GET'
+            )
+            with urllib.request.urlopen(req, timeout=1.0) as response:
+                rules_data = json.loads(response.read().decode('utf-8'))
+                if rules_data and isinstance(rules_data, dict):
+                    # Write pulled rules to local rules.json file atomically
+                    tmp_rules = RULES_FILE + ".tmp"
+                    with open(tmp_rules, "w") as f:
+                        json.dump(rules_data, f, indent=2)
+                    os.replace(tmp_rules, RULES_FILE)
+        except Exception:
+            pass
 
 def step1_sniffer(use_mock=False):
     print(f"[*] Starting Step 1 Sniffer (use_mock={use_mock})...")
