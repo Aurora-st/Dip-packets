@@ -1,0 +1,16 @@
+{
+  "blocked_ips": [
+    "8.8.8.8"
+  ],
+  "blocked_domains": [
+    "facebook.com",
+    "youtbe.com",
+    "youtube",
+    "google.com"
+  ],
+  "blocked_apps": [
+    "Netflix",
+    "YouTube",
+    "Google"
+  ]
+}

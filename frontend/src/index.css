@@ -1,0 +1,261 @@
+/* Custom Premium Styling for DPI Dashboard */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: #e2e8f0;
+  background-color: #080a10;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 0%, #151a30 0%, #080a10 70%);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Card styling */
+.glass-card {
+  background: rgba(22, 28, 45, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 12px 40px 0 rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Specific Red Glow for Active Blocking */
+.glow-blocked {
+  border-color: rgba(239, 68, 68, 0.25) !important;
+  box-shadow: 0 0 20px 2px rgba(239, 68, 68, 0.15) !important;
+  animation: pulse-red 2s infinite alternate;
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 15px 2px rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 25px 6px rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.4);
+  }
+}
+
+/* Neon Green Glow for Live Traffic */
+.indicator-pulse-green {
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #10b981, 0 0 20px #10b981;
+  display: inline-block;
+  animation: pulse-green 1.5s infinite;
+}
+
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 14px 4px #10b981, 0 0 24px #10b981;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+.indicator-pulse-red {
+  width: 10px;
+  height: 10px;
+  background-color: #ef4444;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ef4444;
+  display: inline-block;
+  animation: pulse-red-dot 1.5s infinite;
+}
+
+@keyframes pulse-red-dot {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 14px 4px #ef4444;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+/* Neon Yellow Glow for Warning State */
+.indicator-pulse-yellow {
+  width: 10px;
+  height: 10px;
+  background-color: #f59e0b;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #f59e0b;
+  display: inline-block;
+  animation: pulse-yellow-dot 1.5s infinite;
+}
+
+@keyframes pulse-yellow-dot {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 0 14px 4px #f59e0b;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+/* Custom Scrollbar for premium tables */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(8, 10, 16, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* Typography styles */
+h1, h2, h3, h4 {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Table styling overrides */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th {
+  background: rgba(15, 23, 42, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Inputs & Form control styling */
+input, select {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus {
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* Urgent Animations for snappy video pulls */
+@keyframes urgent-glow {
+  0% { 
+    box-shadow: 0 0 8px 1px rgba(99, 102, 241, 0.25); 
+    border-color: rgba(99, 102, 241, 0.3); 
+  }
+  50% { 
+    box-shadow: 0 0 25px 6px rgba(99, 102, 241, 0.7); 
+    border-color: rgba(99, 102, 241, 0.6); 
+  }
+  100% { 
+    box-shadow: 0 0 8px 1px rgba(99, 102, 241, 0.25); 
+    border-color: rgba(99, 102, 241, 0.3); 
+  }
+}
+
+@keyframes urgent-shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-1.5px, 1px) rotate(-0.5deg); }
+  40% { transform: translate(1.5px, -0.5px) rotate(0.5deg); }
+  60% { transform: translate(-1.5px, -1px) rotate(0deg); }
+  80% { transform: translate(1.5px, 1px) rotate(-0.5deg); }
+  100% { transform: translate(0, 0) rotate(0.5deg); }
+}
+
+@keyframes urgent-text {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.animate-urgent-glow {
+  animation: urgent-glow 0.3s infinite !important;
+}
+
+.animate-urgent-shake {
+  animation: urgent-shake 0.15s infinite !important;
+}
+
+.animate-urgent-text {
+  animation: urgent-text 0.3s infinite !important;
+}
+
+/* Animated Wavy Neon Line flowing Left (Option 1 Upgraded) */
+@keyframes wave-flow-left-80 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-80px); /* Matches wave cycle repeat width for perfect seamless loop */
+  }
+}
+
+.wave-line-animate {
+  animation: wave-flow-left-80 3.5s infinite linear;
+}
+
+/* Responsive media queries to hide connector on squished sizes */
+@media (max-width: 900px) {
+  .connector-gap {
+    display: none !important;
+  }
+}
