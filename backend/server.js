@@ -4,10 +4,19 @@ import { promises as fs } from "fs";
 import path from "path";
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+// ROOT ENDPOINT
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'DPI Backend Running',
+    message: 'API is live',
+    endpoints: ['/api/stats', '/api/rules']
+  });
+});
 
 // Absolute paths to stats.json and rules.json in the engine directory
 const STATS_FILE = "D:\\dpi-engine\\engine\\stats.json";
