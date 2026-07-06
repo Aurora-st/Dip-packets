@@ -23,7 +23,9 @@ import {
 } from "lucide-react";
 import RobotMascot from "./RobotMascot";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = import.meta.env.VITE_BACKEND_URL 
+  ? `${import.meta.env.VITE_BACKEND_URL}/api`
+  : "http://localhost:5000/api";
 
 const generateWavePath = (wavelength, amplitude, height, totalWidth = 2200) => {
   let d = `M 0 ${height}`;
